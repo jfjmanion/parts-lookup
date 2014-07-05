@@ -28,10 +28,7 @@ App::uses('AppController', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
-class IndexController extends AppController {
-
-public $uses = array('Part');
-
+class AddController extends AppController {
 
 /**
  * Displays a view
@@ -42,7 +39,6 @@ public $uses = array('Part');
  *	or MissingViewException in debug mode.
  */
 	public function index() {
-		$parts = $this->Part->find('all');
-		$this->set('parts',$parts);
+	
 	}
 }

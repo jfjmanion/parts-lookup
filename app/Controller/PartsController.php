@@ -42,8 +42,49 @@ public $components = array('RequestHandler');
  */
 	public function fetch($id = '') {
 		$parts = array();
-		$parts = $this->Part->find('all', array('conditions' => array('Part.id' => $id)));
+		$parts = $this->Part->find('all', array('conditions' => array('Part.Id' => $id)));
 		$parts = json_encode($parts);
 		$this->set('parts', $parts);
+	}
+	
+	public function add(){
+		$id = $this->request->data['Part']['Id'];
+		$emptyLocation = false;
+		foreach ($this->request->data['Location'] as $partLocation){
+			$loc = $partLocation['PartLocation'];
+			if (trim($loc) === ""){
+				//also unset it
+				
+				//make sure there are not two of the same locations. IF so unset one
+				$emptyLocation = true;
+			}
+		}
+		if (trim($id) === ""){
+			$class = "bg-danger";
+			$result = "You must insert an Id.";
+		} else if ($emptyLocation){
+			$class = "bg-danger";
+			$result = "You must insert a location.";
+		} else {
+			$results = $this->Part->find('all', array('conditions' => array('Part.Id' => $id)));
+			if (count($results) == 0 ){
+				$this->Part->saveAll($this->request->data);
+				$result = "Part {$id} has been added.";
+				$class = "bg-success";
+			} else {
+				$this->set('parts', json_encode($this->request->data));
+				$result = "Part {$id} already exists.";
+				$class = "bg-danger";
+			}
+		}
+		$this->set('result', $result);
+		$this->set('class', $class);
+	}
+	
+	public function update(){
+		
+	}
+	
+	public function delete(){
 	}
 }

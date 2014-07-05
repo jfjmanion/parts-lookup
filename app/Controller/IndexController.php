@@ -30,8 +30,6 @@ App::uses('AppController', 'Controller');
  */
 class IndexController extends AppController {
 
-public $uses = array('Part');
-
 
 /**
  * Displays a view
@@ -42,7 +40,11 @@ public $uses = array('Part');
  *	or MissingViewException in debug mode.
  */
 	public function index() {
-		$parts = $this->Part->find('all');
-		$this->set('parts',$parts);
+
 	}
+	
+	public function add(){
+			
+	}
+	
 }

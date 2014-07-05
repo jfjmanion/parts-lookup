@@ -67,7 +67,7 @@ $cakeDescription = "Manion's Parts Location Lookup";
 						$('#noResults').addClass('hidden');
 						$('#partNumber').html(data[0].Part.id);
 						$('#partName').html(data[0].Part.PartName);
-						$('#partNotes').html(data[0].Part.Notes);
+						$('#partNotes').html(data[0].Part.PartNotes);
 						$('#partLocation').html('');
 						var text = "<ul>";
 						for (var x in data[0].Location) {
