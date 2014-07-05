@@ -45,27 +45,29 @@
 //add more locations
 var i = $('#location0').size() - 1;
 	$('#addLocation').click(function(){
-		var v = i;
-		var div = $('#location' + v.toString());
-		var clone = div.clone();
-		v++;
+		var v = i + 1;
 		var labelValue = v + 1;
+		var clone = $('#location' + i.toString()).clone();
 		
 		clone.attr('id', 'location' + v.toString());
 		
 		$('#location' + i.toString()).after(clone);
-		clone.children('input[type=text]').attr('id', '#partLocation' + v.toString());
+		clone.children('input').each(function() {
+			$(this).attr('id', 'partLocation' + v.toString());	
+		});
+		
 		clone.children('input[type=text]').attr('name', 'data[Location][' + v.toString() + '][PartLocation]');
 		clone.children('input[type=text]').val('');
-		clone.children('input[type=hidden]').attr('id', '#LocationPartId' + v.toString());
 		clone.children('input[type=hidden]').attr('name', 'data[Location][' + v.toString() + '][Part_id]');
 		clone.children('label').html($('#location0 label').html() + " " + labelValue.toString());
+		clone.children('label').attr('for', 'partLocation' + v.toString());
 		i++;
 	});
 
+//update the id on the hidden values when adding Id text
     $('#id').on('input', function() {
 		$("input[type=hidden]").each(function() {
-     		$(this).val($('#id').val()) //do something with
+     		$(this).val($('#id').val())
 		});
 	});
 
@@ -79,10 +81,8 @@ var i = $('#location0').size() - 1;
 				success: function (data) {
 					$('#results').html(data);
 				},
-				
 			});
 		return false;
-	
 	});
 	
 	</script>
