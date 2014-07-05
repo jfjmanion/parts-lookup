@@ -49,16 +49,28 @@ public $components = array('RequestHandler');
 	
 	public function add(){
 		$id = $this->request->data['Part']['Id'];
-		$emptyLocation = false;
-		foreach ($this->request->data['Location'] as $partLocation){
-			$loc = $partLocation['PartLocation'];
-			if (trim($loc) === ""){
-				//also unset it
-				
+		
+		//Locations logic
+		$emptyLocation = true;
+		$locations = array();
+		$unset = array();
+		for ($i = 0; $i < count($this->request->data['Location']); $i++){
+			$loc = trim($this->request->data['Location'][$i]['PartLocation']);
+			if (trim($loc) !== ""){
+				$emptyLocation = false;
 				//make sure there are not two of the same locations. IF so unset one
-				$emptyLocation = true;
+				if (in_array($loc, $locations)){
+					$unset[] = $i;
+				}
+				$locations[] = $loc;
+			} else {
+				$unset[] = $i;
 			}
 		}
+		foreach ($unset as $index) {
+			unset($this->request->data['Location'][$index]);//dont think this will work, probably need to make it a for array	
+		}
+		//var_dump($this->request->data);
 		if (trim($id) === ""){
 			$class = "bg-danger";
 			$result = "You must insert an Id.";

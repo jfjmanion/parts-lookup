@@ -56,6 +56,7 @@ var i = $('#location0').size() - 1;
 		$('#location' + i.toString()).after(clone);
 		clone.children('input[type=text]').attr('id', '#partLocation' + v.toString());
 		clone.children('input[type=text]').attr('name', 'data[Location][' + v.toString() + '][PartLocation]');
+		clone.children('input[type=text]').val('');
 		clone.children('input[type=hidden]').attr('id', '#LocationPartId' + v.toString());
 		clone.children('input[type=hidden]').attr('name', 'data[Location][' + v.toString() + '][Part_id]');
 		clone.children('label').html($('#location0 label').html() + " " + labelValue.toString());
