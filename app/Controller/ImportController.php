@@ -28,8 +28,9 @@ App::uses('AppController', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
-class IndexController extends AppController {
+class ImportController extends AppController {
 
+public $uses = array('Part');
 
 /**
  * Displays a view
@@ -40,7 +41,7 @@ class IndexController extends AppController {
  *	or MissingViewException in debug mode.
  */
 	public function index() {
-
+		
 	}
 	
 }

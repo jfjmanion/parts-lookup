@@ -32,6 +32,12 @@ class PartsController extends AppController {
 
 public $components = array('RequestHandler');
 
+public $uses = array('Part', 'Location');
+
+private $class;
+
+private $result;
+//public $uses = array('Location, Part');
 /**
  * Displays a view
  *
@@ -41,13 +47,17 @@ public $components = array('RequestHandler');
  *	or MissingViewException in debug mode.
  */
 	public function fetch($id = '') {
+		$id = str_replace(" ", "", $id); //remove all spaces
+		$id = ltrim($id, '0'); //remove leading zeros
+		
 		$parts = array();
 		$parts = $this->Part->find('all', array('conditions' => array('Part.Id' => $id)));
 		$parts = json_encode($parts);
+	
 		$this->set('parts', $parts);
 	}
 	
-	public function add(){
+	public function add() {
 		$id = $this->request->data['Part']['Id'];
 		
 		//Locations logic
@@ -70,7 +80,7 @@ public $components = array('RequestHandler');
 		foreach ($unset as $index) {
 			unset($this->request->data['Location'][$index]);//dont think this will work, probably need to make it a for array	
 		}
-		//var_dump($this->request->data);
+		;
 		if (trim($id) === ""){
 			$class = "bg-danger";
 			$result = "You must insert an Id.";
@@ -94,9 +104,148 @@ public $components = array('RequestHandler');
 	}
 	
 	public function update(){
+		$org_id = $this->request->data['Part']['hidden_id'];
+		unset($this->request->data['Part']['hidden_id']);
 		
+		$this->Part->delete($org_id);	
+		$this->Location->deleteAll(array('Location.Part_id' => $org_id), false);
+		//var_dump($this->request->data);
+	
+		$id = $this->request->data['Part']['Id'];
+		//Locations logic
+		$emptyLocation = true;
+		$locations = array();
+		$unset = array();
+
+		for ($i = 0; $i < count($this->request->data['Location']); $i++){
+			$loc = trim($this->request->data['Location'][$i]['PartLocation']);
+			if (trim($loc) !== ""){
+				$emptyLocation = false;
+				//make sure there are not two of the same locations. IF so unset one
+				if (in_array($loc, $locations)){
+					$unset[] = $i;
+				}
+				$locations[] = $loc;
+			} else {
+				$unset[] = $i;
+			}
+		}
+		foreach ($unset as $index) {
+			unset($this->request->data['Location'][$index]);//dont think this will work, probably need to make it a for array	
+		}
+		;
+		if (trim($id) === ""){
+			$class = "bg-danger";
+			$result = "You must insert an Id.";
+		} else if ($emptyLocation){
+			$class = "bg-danger";
+			$result = "You must insert a location.";
+		} else {
+			$results = $this->Part->find('all', array('conditions' => array('Part.Id' => $id)));
+			if (count($results) == 0 ){
+				$this->Part->saveAll($this->request->data);
+				$result = "Part {$id} has been added.";
+				$class = "bg-success";
+			} else {
+				$this->set('parts', json_encode($this->request->data));
+				$result = "Part {$id} already exists.";
+				$class = "bg-danger";
+			}
+		}
+		$this->set('result',$result);
+		$this->set('class',$class);
+
 	}
 	
-	public function delete(){
+	public function delete(){	
+		$id = $this->request->data['part_id'];
+		$id = trim($id, "'");
+		$this->Part->delete($id);	
+		$this->Location->deleteAll(array('Location.Part_id' => $id), false);
+		
+		$results = $this->Part->find('all', array('conditions' => array('Part.Id' => $id)));
+		
+		if (count($results) == 0 ){
+			$result = "Part {$id} has been deleted";
+			$class = "bg-success";
+		} else {
+			$this->set('parts', json_encode($this->request->data));
+			$result = "Part {$id} could not be deleted";
+			$class = "bg-danger";
+		}
+		
+		$this->set('result', $result);
+		$this->set('class', $class);
+	}
+	
+	public function import(){
+		
+		//do more checking
+		$fileName = $_FILES['data']['tmp_name']['part']['file'];
+		if(isset($fileName)){
+			
+			$csv = array_map('str_getcsv', file($fileName));
+			$partsAdded = array();
+			$partsUpdated = array();
+			foreach($csv as $part){
+				$value = array();
+				$id = $part[2];
+
+				$this->Part->delete($id);	
+				$this->Location->deleteAll(array('Location.Part_id' => $id), false);
+				$value['Part']['Id'] = $id;
+				$value['Part']['PartName'] = $part[0];	
+				$value['Part']['PartNotes'] = $part[1];
+				$value['Location'][0]['PartLocation'] = $part[3];	
+				$value['Location'][0]['Part_id'] = $id;
+				$this->Part->saveAll($value);
+				$partsAdded[] = $id;
+			}
+		}
+		
+		$this->set('added', $partsAdded);
+	}
+	
+	private function addUpdatePart($id = 0){
+		//Locations logic
+		$emptyLocation = true;
+		$locations = array();
+		$unset = array();
+
+		for ($i = 0; $i < count($this->request->data['Location']); $i++){
+			$loc = trim($this->request->data['Location'][$i]['PartLocation']);
+			if (trim($loc) !== ""){
+				$emptyLocation = false;
+				//make sure there are not two of the same locations. IF so unset one
+				if (in_array($loc, $locations)){
+					$unset[] = $i;
+				}
+				$locations[] = $loc;
+			} else {
+				$unset[] = $i;
+			}
+		}
+		foreach ($unset as $index) {
+			unset($this->request->data['Location'][$index]);//dont think this will work, probably need to make it a for array	
+		}
+		;
+		if (trim($id) === ""){
+			$class = "bg-danger";
+			$result = "You must insert an Id.";
+		} else if ($emptyLocation){
+			$class = "bg-danger";
+			$result = "You must insert a location.";
+		} else {
+			$results = $this->Part->find('all', array('conditions' => array('Part.Id' => $id)));
+			if (count($results) == 0 ){
+				$this->Part->saveAll($this->request->data);
+				$result = "Part {$id} has been added.";
+				$class = "bg-success";
+			} else {
+				$this->set('parts', json_encode($this->request->data));
+				$result = "Part {$id} already exists.";
+				$class = "bg-danger";
+			}
+		}
 	}
 }

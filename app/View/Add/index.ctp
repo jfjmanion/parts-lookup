@@ -20,7 +20,12 @@
     <?php echo $this->Form->input('Location.0.PartLocation', array('div' => false, 'id' => 'PartLocation0', 'class' => 'form-control')); ?>
     <?php echo $this->Form->hidden('Location.0.Part_id', array('id' => 'LocationPartId0')); ?>
 	</div>
-	<input type="button" class="btn btn-primary pull-right" id="addLocation" name="addLocation" value="Add Additional Part Location"/>
+    
+    <button type="button" class="btn btn-info btn-sm" name="addLocation" id="addLocation"><span class="glyphicon glyphicon-plus"></span></button>
+    <button type="button" class="btn btn-danger btn-sm hidden" name="removeLocation" id="removeLocation"><span class="glyphicon glyphicon-minus"></span></button>
+    
+    
+    
 	<?php echo $this->Form->input('Part.PartNotes', array('id' => 'PartNotes', 'class' => 'form-control')); ?>
  
     <?php echo $this->Form->end(array('label' => 'Add Part',
@@ -44,6 +49,16 @@
 
 //add more locations
 var i = $('#location0').size() - 1;
+
+	$('#removeLocation').click(function(){
+		//if there are 2, then remove the button as it will be 1 afterwords
+		if($("input[type=hidden]").size() == 2){
+			$(this).addClass('hidden');	
+		}
+		$('#location' + i.toString()).remove();
+		i--;	
+	});
+
 	$('#addLocation').click(function(){
 		var v = i + 1;
 		var labelValue = v + 1;
@@ -62,6 +77,7 @@ var i = $('#location0').size() - 1;
 		clone.children('label').html($('#location0 label').html() + " " + labelValue.toString());
 		clone.children('label').attr('for', 'partLocation' + v.toString());
 		i++;
+		$('#removeLocation').removeClass('hidden');
 	});
 
 //update the id on the hidden values when adding Id text
@@ -73,7 +89,7 @@ var i = $('#location0').size() - 1;
 
 	$('#partAdd').click(function() {
 		$.ajax({
-				url: '/parts/parts/add/',
+				url: '<?php echo $this->webroot;?>/parts/add/',
 				cache: false,
 				type: 'POST',
 				dataType: 'HTML',

@@ -28,8 +28,9 @@ App::uses('AppController', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
-class IndexController extends AppController {
+class UpdateController extends AppController {
 
+public $uses = 'Part';
 
 /**
  * Displays a view
@@ -40,7 +41,17 @@ class IndexController extends AppController {
  *	or MissingViewException in debug mode.
  */
 	public function index() {
-
+		$partID = $this->params['url'];
+		$part = $this->Part->find('all', array('conditions' => array('Part.Id' => $partID)));
+		
+		//if results are empty
+		if (count($part) == 0 ){
+			throw new NotFoundException();
+		}	
+		
+		$this->set('id', $partID);
+		$this->set('partName', $part[0]['Part']['PartName']);
+		$this->set('partNotes', $part[0]['Part']['PartNotes']);
+		$this->set('locations', $part[0]['Location']);
 	}
-	
 }
