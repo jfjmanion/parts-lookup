@@ -1,5 +1,5 @@
 <div class="users form">
-<h1>Users</h1>
+<h2>Users</h2>
 <div class="table-responsive">
 <table class="table">
     <thead>
@@ -42,12 +42,13 @@
     </tbody>
 </table>
 </div>
-<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
-<?php echo $this->Paginator->numbers(array(   'class' => 'numbers'     ));?>
-<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
+<div class="pagination-large">
+    <ul class="pagination">
+            <?php
+                echo $this->Paginator->prev(__('prev'), array('tag' => 'li'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+                echo $this->Paginator->numbers(array('separator' => '','currentTag' => 'a', 'currentClass' => 'active','tag' => 'li','first' => 1));
+                echo $this->Paginator->next(__('next'), array('tag' => 'li','currentClass' => 'disabled'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+            ?>
+        </ul>
+    </div>
 </div>                
-<?php echo $this->Html->link( "Add A New User.",   array('action'=>'add'),array('escape' => false) ); ?>
-<br/>
-<?php 
-echo $this->Html->link( "Logout",   array('action'=>'logout') ); 
-?>

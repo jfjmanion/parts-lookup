@@ -14,25 +14,31 @@
 <div class="row">
     <div class="col-md-12">
     <form action="/" id="updateForm">
-        <?php echo $this->Form->hidden('Part.hidden_id', array('id' => 'hidden_id', 'value' => $id)); ?>
-        <?php echo $this->Form->input('Part.Id', array('id' => 'id', 'class' => 'form-control', 'label' =>'Part ID', 'value' => $id)); ?>
-        <?php echo $this->Form->input('Part.PartName', array('id' => 'PartName', 'class' => 'form-control', 'value' => $partName)); ?>
-        <?php $count = 0;
+        <?php 
+		echo $this->Form->hidden('Part.hidden_id', array('id' => 'hidden_id', 'value' => $id));
+        
+		echo $this->Form->input('Part.Id', array('id' => 'id', 'class' => 'form-control', 'label' =>'Part ID', 'value' => $id, 'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'help-block has-error'))));
+        echo $this->Form->input('Part.PartName', array('id' => 'PartName', 'class' => 'form-control', 'value' => $partName, 'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'help-block has-error'))));
+        
+		$count = 0;
         foreach ($locations as $location) {
-            echo '<div id="location'.$count.'">';
-            echo $this->Form->input('Location.'.$count.'.PartLocation', array('div' => false, 'id' => 'PartLocation'.$count, 'class' => 'form-control', 'value' =>$location['PartLocation']));
+            echo '<div id="location'.$count.'" class="form-group">';
+            echo $this->Form->input('Location.'.$count.'.PartLocation', array('div' =>false,'id' => 'PartLocation'.$count, 'class' => 'form-control', 'value' =>$location['PartLocation']));
             echo $this->Form->hidden('Location.'.$count.'.Part_id', array('id' => 'LocationPartId'.$count, 'value' => $id));
             echo "</div>";
             $count++;
         }
         ?>
-        
+        <div class="form-group">
         <button type="button" class="btn btn-info btn-sm" name="addLocation" id="addLocation"><span class="glyphicon glyphicon-plus"></span></button>
         <button type="button" class="btn btn-danger btn-sm <?php echo ($count > 1) ? '' : 'hidden';?>" name="removeLocation" id="removeLocation"><span class="glyphicon glyphicon-minus"></span></button>
+        </div>
         
         
-        
-        <?php echo $this->Form->input('Part.PartNotes', array('id' => 'PartNotes', 'class' => 'form-control', 'value' => $partNotes )); ?>
+        <?php echo $this->Form->input('Part.PartNotes', array('id' => 'PartNotes', 'class' => 'form-control', 'value' => $partNotes, 'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ),
+			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'help-block has-error')))); ?>
      
         <?php echo $this->Form->end(array('label' => 'Update Part',
         'name' => 'Update',

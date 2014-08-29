@@ -38,7 +38,7 @@ class UsersController extends AppController {
  
     public function index() {
         $this->paginate = array(
-            'limit' => 6,
+            'limit' => 10,
             'order' => array('User.username' => 'asc' )
         );
         $users = $this->paginate('User');
@@ -99,7 +99,7 @@ class UsersController extends AppController {
             $this->Session->setFlash('Invalid user id provided');
             $this->redirect(array('action'=>'index'));
         }
-        if ($this->User->saveField('status', 0)) {
+        if ($this->User->delete()) {
             $this->Session->setFlash(__('User deleted'));
             $this->redirect(array('action' => 'index'));
         }

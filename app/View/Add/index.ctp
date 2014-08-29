@@ -14,19 +14,20 @@
 <div class="row">
 <div class="col-md-12">
 <form action="/" id="addForm">
-    <?php echo $this->Form->input('Part.Id', array('id' => 'id', 'class' => 'form-control', 'label' =>'Part ID')); ?>
-   	<?php echo $this->Form->input('Part.PartName', array('id' => 'PartName', 'class' => 'form-control')); ?>
-    <div id="location0">
+    <?php echo $this->Form->input('Part.Id', array('id' => 'id', 'class' => 'form-control', 'label' =>'Part ID', 'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ))); ?>
+   	<?php echo $this->Form->input('Part.PartName', array('id' => 'PartName', 'class' => 'form-control', 'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ))); ?>
+    <div id="location0" class="form-group">
     <?php echo $this->Form->input('Location.0.PartLocation', array('div' => false, 'id' => 'PartLocation0', 'class' => 'form-control')); ?>
     <?php echo $this->Form->hidden('Location.0.Part_id', array('id' => 'LocationPartId0')); ?>
 	</div>
     
+    <div class="form-group">
     <button type="button" class="btn btn-info btn-sm" name="addLocation" id="addLocation"><span class="glyphicon glyphicon-plus"></span></button>
     <button type="button" class="btn btn-danger btn-sm hidden" name="removeLocation" id="removeLocation"><span class="glyphicon glyphicon-minus"></span></button>
+    </div>
     
     
-    
-	<?php echo $this->Form->input('Part.PartNotes', array('id' => 'PartNotes', 'class' => 'form-control')); ?>
+	<?php echo $this->Form->input('Part.PartNotes', array('id' => 'PartNotes', 'class' => 'form-control','div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ))); ?>
  
     <?php echo $this->Form->end(array('label' => 'Add Part',
     'name' => 'Update',

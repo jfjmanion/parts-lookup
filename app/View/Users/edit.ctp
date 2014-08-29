@@ -1,5 +1,5 @@
 <div class="users form">
-<?php echo $this->session->flash(); ?>
+<?php echo $this->Session->flash(); ?>
 </p>
 <?php echo $this->Form->create('User'); ?>
     <fieldset>
@@ -30,7 +30,7 @@
         ));
 		
 		echo $this->Form->input('role',
-   	 		array( 'options' => array( 'admin' => 'admin'),
+   	 		array( 'options' => array( 'admin' => 'Admin'),
 			'label' => array('text' => 'Role', 'class' => 'strong'), 'class' => 'form-control', 
 			'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ),
 			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'help-block has-error'))
