@@ -54,4 +54,8 @@ public $uses = 'Part';
 		$this->set('partNotes', $part[0]['Part']['PartNotes']);
 		$this->set('locations', $part[0]['Location']);
 	}
+	
+	public function isAuthorized($user) {
+		return false;	
+	}
 }

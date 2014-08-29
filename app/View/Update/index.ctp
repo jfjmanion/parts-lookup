@@ -97,7 +97,7 @@ var i = <?php echo $count; ?>-1;
 
 	$('#partUpdate').click(function() {
 		$.ajax({
-				url: '<?php echo $this->webroot;?>/parts/update/',
+				url: '<?php echo $this->webroot;?>parts/update/',
 				cache: false,
 				type: 'POST',
 				dataType: 'HTML',

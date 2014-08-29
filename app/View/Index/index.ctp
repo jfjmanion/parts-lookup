@@ -12,7 +12,15 @@
 
 
 <div class="row">
-    <?php echo $this->Form->input('', array('id' => 'textInput', 'class' => 'form-control input-lg', 'placeholder' => 'Enter part number')); ?>
+	<select id='textInput' class='form-control input-lg' placeholder='Enter part number'>
+	<?php
+	foreach ($partIds as $partId) {
+		$id = $partId['Part']['id'];
+		echo "<option value='{$id}'>{$id}</option>";	
+	}
+	?>
+    </select>
+
 </div>
 
 <div id="tableContainer" class="row hidden">
@@ -25,16 +33,21 @@
                     <th>Part Name</th>
                     <th>Part Location</th>
                     <th>Notes</th>
+                    <?php if($this->Session->check('Auth.User')){?>
                     <th>Actions</th>
+                    <?php }?>
                 </tr>
                 <tr>
                     <td id="partNumber"></td>
                     <td id="partName"></td>
                     <td id="partLocation"></td>
                     <td id="partNotes"></td>
+                    <?php if($this->Session->check('Auth.User')){?>
                     <td id="actions">
-                    <button type="button" class="btn btn-default btn-md" id="update">Edit <span class="glyphicon glyphicon-edit"></span></button>
-                    <button type="button" class="btn btn-default btn-md" id="delete">Delete <span class="glyphicon glyphicon-remove"></span></button></td>
+                    	<button type="button" class="btn btn-default btn-md" id="update">Edit <span class="glyphicon glyphicon-edit"></span></button>
+                    	<button type="button" class="btn btn-default btn-md" id="delete">Delete <span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
+                    <?php }?>
                 </tr>
             </table>
         </div>
@@ -47,6 +60,10 @@
 </div>
 
 <script>
+	$('#textInput').selectize({
+    	maxItems: 1,
+	});
+
 	$('#delete').click(function() {
 		var result = window.confirm("Are you sure you want to delete part: " + $('#partNumber').html());
 		if (result == false){
@@ -55,28 +72,28 @@
 		
 		
 		$.ajax({
-				url: '<?php echo $this->webroot;?>/parts/delete/',
+				url: '<?php echo $this->webroot;?>parts/delete/',
 				cache: false,
 				type: 'POST',
 				dataType: 'HTML',
 				data: {'part_id' : "'" + $('#partNumber').html() + "'"},
 				success: function (data) {
-					$( "#textInput" ).trigger( "input" );
+					$( "#textInput" ).trigger( "change" );
 				}
 			});
 		
 	});
 
 
-	$('#textInput').on('input', function() {
+	$('#textInput').on('change', function() {
 		var $this = $(this);
-   		var delay = 1000; // 1 second delay after last input
+   		var delay = 1; // 1 second delay after last input
     	clearTimeout($this.data('timer'));
     	$this.data('timer', setTimeout(function(){
         	$this.removeData('timer');
 
 			$.ajax({
-				url: '<?php echo $this->webroot;?>/parts/fetch/' + $('#textInput').val(),
+				url: '<?php echo $this->webroot;?>parts/fetch/' + $('#textInput').val(),
 				cache: false,
 				type: 'GET',
 				dataType: 'JSON',

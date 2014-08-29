@@ -30,7 +30,7 @@ App::uses('AppController', 'Controller');
  */
 class IndexController extends AppController {
 
-
+public $uses = "Part";
 /**
  * Displays a view
  *
@@ -40,7 +40,13 @@ class IndexController extends AppController {
  *	or MissingViewException in debug mode.
  */
 	public function index() {
-
+		$parts = $this->Part->find('all', array('fields' => array('Part.id')));
+		$this->set('loggedIn', $this->Auth->loggedIn());
+		$this->set('partIds', $parts);
 	}
 	
+	public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('index');
+    }
 }

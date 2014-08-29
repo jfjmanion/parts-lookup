@@ -192,4 +192,10 @@ private function updatePartRequest(){
 		$this->set('result',$result);
 		$this->set('class',$class);
 	}
+	
+	
+	public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('fetch');
+    }
 }
