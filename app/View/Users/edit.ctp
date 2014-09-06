@@ -1,6 +1,6 @@
 <div class="users form">
 <?php echo $this->Session->flash(); ?>
-</p>
+
 <?php echo $this->Form->create('User'); ?>
     <fieldset>
         <legend><?php echo __('Edit User'); ?></legend>

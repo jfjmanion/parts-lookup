@@ -105,8 +105,11 @@ private $result;
 				$value['Part']['PartNotes'] = $part[1];
 				$value['Location'][0]['PartLocation'] = $part[3];	
 				$value['Location'][0]['Part_id'] = $id;
-				$this->Part->saveAll($value);
-				$partsAdded[] = $id;
+				if ($id != ""){
+					$this->Part->saveAll($value);
+					$partsAdded[] = $id;
+				}
+				
 			}
 		}
 		

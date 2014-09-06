@@ -57,6 +57,8 @@ $cakeDescription = "Manion's Parts Location Lookup";
                     echo  "<br>";
                     echo $this->Html->link( "Add A New User",   array('controller' => 'users', 'action'=>'add') ); 
 					 echo  "<br>";
+					 echo $this->Html->link( "Add A New Part",   array('controller' => 'add', 'action'=>'index') ); 
+					 echo  "<br>";
                     echo $this->Html->link( "Import from CSV",   array('controller' => 'import', 'action'=>'index') ); 
                 } else if ($this->params['controller'] == 'users' && $this->params['action'] == 'login' ){
                     //do nothing

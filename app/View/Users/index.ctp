@@ -1,5 +1,6 @@
 <div class="users form">
 <h2>Users</h2>
+<?php echo $this->Session->flash(); ?>
 <div class="table-responsive">
 <table class="table">
     <thead>
@@ -28,13 +29,8 @@
             <td style="text-align: center;"><?php echo $user['User']['role']; ?></td>
             <td style="text-align: center;"><?php echo $user['User']['status']; ?></td>
             <td >
-            <?php echo $this->Html->link(    "Edit",   array('action'=>'edit', $user['User']['id']) ); ?> | 
-            <?php
-                if( $user['User']['status'] != 0){ 
-                    echo $this->Html->link(    "Delete", array('action'=>'delete', $user['User']['id']));}else{
-                    echo $this->Html->link(    "Re-Activate", array('action'=>'activate', $user['User']['id']));
-                    }
-            ?>
+            <?php echo $this->Html->link(    "Edit",   array('action'=>'edit', $user['User']['id']), array('id' => "deleteuser-".$user['User']['id'])); ?> | 
+            <?php echo $this->Html->link(    "Delete", array('action'=>'delete', $user['User']['id'])); ?>
             </td>
         </tr>
         <?php endforeach; ?>
@@ -52,3 +48,11 @@
         </ul>
     </div>
 </div>                
+<script>
+	$('[id^=deleteuser-]').click(function() {
+		var result = window.confirm("Are you sure you want to delete user?");
+		if (result == false){
+		  return false;	
+		}
+	});
+</script>

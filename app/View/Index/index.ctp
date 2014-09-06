@@ -67,7 +67,7 @@
 	$('#delete').click(function() {
 		var result = window.confirm("Are you sure you want to delete part: " + $('#partNumber').html());
 		if (result == false){
-		  return;	
+		  return false;	
 		}
 		
 		
