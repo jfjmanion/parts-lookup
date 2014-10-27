@@ -9,14 +9,13 @@
 
 
 ?>
-
-
 <div class="row">
+	<?php echo $this->Session->flash(); ?>
 	<select id='textInput' class='form-control input-lg' placeholder='Enter part number'>
 	<?php
 	foreach ($partIds as $partId) {
 		$id = $partId['Part']['id'];
-		echo "<option value='{$id}'>{$id}</option>";	
+		echo "<option value='{$id}'>{$id}</option>";
 	}
 	?>
     </select>
@@ -67,10 +66,10 @@
 	$('#delete').click(function() {
 		var result = window.confirm("Are you sure you want to delete part: " + $('#partNumber').html());
 		if (result == false){
-		  return false;	
+		  return false;
 		}
-		
-		
+
+
 		$.ajax({
 				url: '<?php echo $this->webroot;?>parts/delete/',
 				cache: false,
@@ -81,7 +80,7 @@
 					$( "#textInput" ).trigger( "change" );
 				}
 			});
-		
+
 	});
 
 
@@ -120,7 +119,7 @@
 			});
 		}, delay));
 	});
-	
+
 	$('#update').click(function(){
 		window.location.replace('<?php echo $this->webroot;?>update/?part_id='+$('#partNumber').html());
 	});
