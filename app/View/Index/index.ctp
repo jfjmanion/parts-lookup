@@ -62,7 +62,13 @@
 <script>
 	$('#textInput').selectize({
     	maxItems: 1,
+			onType: function(str){
+				var $this = $(this)[0];
+				$this.setValue(ltrim(str, '0'));
+			}
 	});
+
+	$('#textInput').on
 
 	$('#delete').click(function() {
 		var result = window.confirm("Are you sure you want to delete part: " + $('#partNumber').html());
@@ -86,7 +92,7 @@
 
 
 	$('#textInput').on('change', function() {
-		var $this = $(this);
+			var $this = $(this);
    		var delay = 1; // 1 second delay after last input
     	clearTimeout($this.data('timer'));
     	$this.data('timer', setTimeout(function(){
@@ -124,4 +130,20 @@
 	$('#update').click(function(){
 		window.location.replace('<?php echo $this->webroot;?>update/?part_id='+$('#partNumber').html());
 	});
+
+	function ltrim(str, charlist) {
+  //  discuss at: http://phpjs.org/functions/ltrim/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //    input by: Erkekjetter
+  // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // bugfixed by: Onno Marsman
+  //   example 1: ltrim('    Kevin van Zonneveld    ');
+  //   returns 1: 'Kevin van Zonneveld    '
+
+  charlist = !charlist ? ' \\s\u00A0' : (charlist + '')
+    .replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '$1');
+  var re = new RegExp('^[' + charlist + ']+', 'g');
+  return (str + '')
+    .replace(re, '');
+}
 	</script>
