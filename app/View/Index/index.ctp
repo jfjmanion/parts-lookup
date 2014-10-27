@@ -10,16 +10,17 @@
 
 ?>
 <div class="row">
-	<?php echo $this->Session->flash(); ?>
-	<select id='textInput' class='form-control input-lg' placeholder='Enter part number'>
-	<?php
-	foreach ($partIds as $partId) {
-		$id = $partId['Part']['id'];
-		echo "<option value='{$id}'>{$id}</option>";
-	}
-	?>
-    </select>
-
+	<div class="col-md-12">
+		<?php echo $this->Session->flash(); ?>
+		<select id='textInput' class='form-control input-lg' placeholder='Enter part number'>
+			<?php
+			foreach ($partIds as $partId) {
+				$id = $partId['Part']['id'];
+				echo "<option value='{$id}'>{$id}</option>";
+			}
+			?>
+	  </select>
+	</div>
 </div>
 
 <div id="tableContainer" class="row hidden">
