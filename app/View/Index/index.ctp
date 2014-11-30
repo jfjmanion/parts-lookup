@@ -55,7 +55,7 @@
 </div>
 <div id="noResults" class="row hidden">
 <div class="col-md-12">
-	<p class="bg-info"> No results for part number: <span id="partNumberResult"></span>.</p>
+	<p class="bg-info"> No results for that part number.</p>
     </div>
 </div>
 
@@ -118,7 +118,6 @@
 						text += "</ul>";
 						$('#partLocation').append(text);
 					} else {
-						$("#partNumberResult").html($('#textInput').val());
 						$('#tableContainer').addClass('hidden');
 						$('#noResults').removeClass('hidden');
 					}
