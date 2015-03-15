@@ -92,28 +92,34 @@ private $result;
 		$fileName = $_FILES['data']['tmp_name']['part']['file'];
 		if(isset($fileName)){
 
-			$csv = array_map('str_getcsv', file($fileName));
+			$csv = array_map("str_getcsv", preg_split('/\r*\n+|\r+/', file_get_contents($fileName)));
 			$partsAdded = array();
 			$partsUpdated = array();
+
 			foreach($csv as $part){
 				$value = array();
 				$id = $this->stripExtraChars($part[2]);
 
-				$this->deletePart($id);
-				$value['Part']['Id'] = $id;
-				$value['Part']['PartName'] = $part[0];
-				$value['Part']['PartNotes'] = $part[1];
-				$value['Location'][0]['PartLocation'] = $part[3];
-				$value['Location'][0]['Part_id'] = $id;
-				if ($id != ""){
+				$existingParts = $this->findPart($id);
+
+				//if the part already exists, don't add it
+				if (is_array($existingParts) && !empty($existingParts)) {
+					$partsUpdated[] = $id;
+				} else if ($id != ""){
+					$this->deletePart($id);
+					$value['Part']['Id'] = $id;
+					$value['Part']['PartName'] = $part[0];
+					$value['Part']['PartNotes'] = $part[1];
+					$value['Location'][0]['PartLocation'] = $part[3];
+					$value['Location'][0]['Part_id'] = $id;
 					$this->Part->saveAll($value);
 					$partsAdded[] = $id;
 				}
-
 			}
 		}
 
 		$this->set('added', $partsAdded);
+		$this->set('notUpdated', $partsUpdated);
 	}
 
 private function updatePartRequest(){

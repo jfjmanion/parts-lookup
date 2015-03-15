@@ -41,7 +41,7 @@ public $uses = array('Part');
  *	or MissingViewException in debug mode.
  */
 	public function index() {
-		
+
 	}
-	
+
 }
