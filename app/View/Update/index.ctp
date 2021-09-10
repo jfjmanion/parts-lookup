@@ -15,7 +15,7 @@
     <div class="col-md-12">
     <form action="/" id="updateForm">
         <?php 
-		echo $this->Form->hidden('Part.hidden_id', array('id' => 'hidden_id', 'value' => $id));
+		echo $this->Form->hidden('Part.hidden_id', array('id' => 'hidden_id', 'value' => $id, 'secure' => false));
         
 		echo $this->Form->input('Part.Id', array('id' => 'id', 'class' => 'form-control', 'label' =>'Part ID', 'value' => $id, 'div' => array('class' => "form-group ".($this->Form->isFieldError('role') ? 'has-error' : '') ),
 			'error' => array('attributes' => array('wrap' => 'p', 'class' => 'help-block has-error'))));
@@ -26,7 +26,7 @@
         foreach ($locations as $location) {
             echo '<div id="location'.$count.'" class="form-group">';
             echo $this->Form->input('Location.'.$count.'.PartLocation', array('div' =>false,'id' => 'PartLocation'.$count, 'class' => 'form-control', 'value' =>$location['PartLocation']));
-            echo $this->Form->hidden('Location.'.$count.'.Part_id', array('id' => 'LocationPartId'.$count, 'value' => $id));
+            echo $this->Form->hidden('Location.'.$count.'.Part_id', array('id' => 'LocationPartId'.$count, 'value' => $id, 'secure' => false));
             echo "</div>";
             $count++;
         }

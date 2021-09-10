@@ -1,7 +1,7 @@
 <?php 
-echo $this->Form->create('part', array('type' => 'file', 'action'=>'import'));
+echo $this->Form->create('part', array('type' => 'file', 'url'=>'/parts/import'));
 echo $this->Form->input('file', array('label'=>"Import CSV", "type"=>"file"));
-echo FormHelper::button('Submit', array('id'=>'submit'));
+echo $this->Form->button('Submit', array('id'=>'submit'));
 echo $this->Form->end(); 
 echo "<span id='jason'></span>"; ?>
 <script>

@@ -36,7 +36,7 @@ class User extends AppModel {
  public $validate = array(
         'username' => array(
             'nonEmpty' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'message' => 'A username is required',
                 'allowEmpty' => false
             ),
@@ -56,7 +56,7 @@ class User extends AppModel {
         ),
         'password' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'message' => 'A password is required'
             ),
             'min_length' => array(
@@ -67,7 +67,7 @@ class User extends AppModel {
          
         'password_confirm' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'message' => 'Please confirm your password'
             ),
              'equaltofield' => array(
