@@ -57,10 +57,12 @@ $cakeDescription = "Manion's Parts Location Lookup";
                   echo $this->Html->link( "Logout",   array('controller' => 'users', 'action'=>'logout') );
                   echo  "<br>";
                   echo $this->Html->link( "Add A New User",   array('controller' => 'users', 'action'=>'add') );
-				 echo  "<br>";
-				 echo $this->Html->link( "Add A New Part",   array('controller' => 'add', 'action'=>'index') );
-				 echo  "<br>";
+									 echo  "<br>";
+									 echo $this->Html->link( "Add A New Part",   array('controller' => 'add', 'action'=>'index') );
+									 echo  "<br>";
                   echo $this->Html->link( "Import from CSV",   array('controller' => 'import', 'action'=>'index') );
+									echo  "<br>";
+								 echo $this->Html->link( "Export to CSV",   array('controller' => 'export', 'action'=>'index') );
               } else if ($this->params['controller'] == 'users' && $this->params['action'] == 'login' ){
                   //do nothing
               } else {
