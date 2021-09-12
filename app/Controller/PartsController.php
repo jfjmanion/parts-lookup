@@ -97,21 +97,27 @@ private $result;
 			$partsUpdated = array();
 
 			foreach($csv as $part){
-				$value = array();
-				$id = $this->stripExtraChars($part[2]);
-
+				$value = [];
+				$id = $part[0];
+				
 				$existingParts = $this->findPart($id);
-
 				//if the part already exists, don't add it
 				if (is_array($existingParts) && !empty($existingParts)) {
 					$partsUpdated[] = $id;
-				} else if ($id != ""){
+				} else if ($id != "") {
 					$this->deletePart($id);
+					
+					$value['Part'] = [];
 					$value['Part']['Id'] = $id;
-					$value['Part']['PartName'] = $part[0];
-					$value['Part']['PartNotes'] = $part[1];
-					$value['Location'][0]['PartLocation'] = $part[3];
-					$value['Location'][0]['Part_id'] = $id;
+					@$value['Part']['PartName'] = $part[1];
+					
+					if (!empty($part[2])) {
+						$value['Part']['PartNotes'] = $part[2];
+					}
+					if (!empty($part[3])) {
+						$value['Location'][0]['PartLocation'] = $part[3];
+						$value['Location'][0]['Part_id'] = $id;
+					}
 					$this->Part->saveAll($value);
 					$partsAdded[] = $id;
 				}
